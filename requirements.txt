@@ -1,2 +1,2 @@
 Adafruit-Blinka
-adafruit-circuitpython-hashlib
+Adafruit_CircuitPython_Hashlib
