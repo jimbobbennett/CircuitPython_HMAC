@@ -46,17 +46,21 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_HMAC.git"
 
 import adafruit_hashlib as _hashlib
 
+
 def __translate(key, translation):
     return bytes(translation[x] for x in key)
-    
+
+
 TRANS_5C = bytes((x ^ 0x5C) for x in range(256))
 TRANS_36 = bytes((x ^ 0x36) for x in range(256))
+
 
 class HMAC:
     """RFC 2104 HMAC class.  Also complies with RFC 4231.
 
     This supports the API for Cryptographic Hash Functions (PEP 247).
     """
+
     blocksize = 64  # 512-bit HMAC; can be changed in subclasses.
 
     def __init__(self, key, msg=None, digestmod=None):
@@ -75,7 +79,9 @@ class HMAC:
         """
 
         if not isinstance(key, (bytes, bytearray)):
-            raise TypeError("key: expected bytes or bytearray, but got %r" % type(key).__name__)
+            raise TypeError(
+                "key: expected bytes or bytearray, but got %r" % type(key).__name__
+            )
 
         if digestmod is None:
             digestmod = _hashlib.sha256
@@ -83,15 +89,15 @@ class HMAC:
         if callable(digestmod):
             self.digest_cons = digestmod
         elif isinstance(digestmod, str):
-            self.digest_cons = lambda d=b'': _hashlib.new(digestmod, d)
+            self.digest_cons = lambda d=b"": _hashlib.new(digestmod, d)
         else:
-            self.digest_cons = lambda d=b'': digestmod.new(d)
+            self.digest_cons = lambda d=b"": digestmod.new(d)
 
         self.outer = self.digest_cons()
         self.inner = self.digest_cons()
         self.digest_size = self.inner.digest_size
 
-        if hasattr(self.inner, 'block_size'):
+        if hasattr(self.inner, "block_size"):
             blocksize = self.inner.block_size
             if blocksize < 16:
                 blocksize = self.blocksize
@@ -159,6 +165,7 @@ class HMAC:
         """
         hmac = self._current()
         return hmac.hexdigest()
+
 
 def new(key, msg=None, digestmod=None):
     """Create a new hashing object and return it.
