@@ -23,7 +23,8 @@
 `adafruit_hmac`
 ================================================================================
 
-HMAC (Keyed-Hashing for Message Authentication) Python module. Implements the HMAC algorithm as described by RFC 2104.
+HMAC (Keyed-Hashing for Message Authentication) Python module. 
+Implements the HMAC algorithm as described by RFC 2104.
 
 
 * Author(s): Jim Bennett
@@ -36,8 +37,6 @@ Implementation Notes
 * Adafruit CircuitPython firmware for the supported boards:
   https://github.com/adafruit/circuitpython/releases
 
-.. todo:: Uncomment or remove the Bus Device and/or the Register library dependencies based on the library's use of either.
-
 """
 
 # imports
@@ -45,19 +44,10 @@ Implementation Notes
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_HMAC.git"
 
-
-"""HMAC (Keyed-Hashing for Message Authentication) Python module.
-
-Implements the HMAC algorithm as described by RFC 2104.
-"""
-
 import adafruit_hashlib as _hashlib
 
-trans_5C = bytes((x ^ 0x5C) for x in range(256))
-trans_36 = bytes((x ^ 0x36) for x in range(256))
-
-def translate(d, t):
-    return bytes(t[x] for x in d)
+TRANS_5C = bytes((x ^ 0x5C) for x in range(256))
+TRANS_36 = bytes((x ^ 0x36) for x in range(256))
 
 class HMAC:
     """RFC 2104 HMAC class.  Also complies with RFC 4231.
@@ -65,6 +55,9 @@ class HMAC:
     This supports the API for Cryptographic Hash Functions (PEP 247).
     """
     blocksize = 64  # 512-bit HMAC; can be changed in subclasses.
+
+    def __translate(self, key, translation):
+        return bytes(translation[x] for x in key)
 
     def __init__(self, key, msg=None, digestmod=None):
         """Create a new HMAC object.
@@ -113,13 +106,15 @@ class HMAC:
             key = self.digest_cons(key).digest()
 
         key = key + bytes(blocksize - len(key))
-        self.outer.update(translate(key, trans_5C))
-        self.inner.update(translate(key, trans_36))
+        self.outer.update(self.__translate(key, TRANS_5C))
+        self.inner.update(self.__translate(key, TRANS_36))
         if msg is not None:
             self.update(msg)
 
     @property
     def name(self):
+        """Return the name of this object
+        """
         return "hmac-" + self.inner.name
 
     def update(self, msg):
@@ -145,9 +140,9 @@ class HMAC:
 
         To be used only internally with digest() and hexdigest().
         """
-        h = self.outer.copy()
-        h.update(self.inner.digest())
-        return h
+        hmac = self.outer.copy()
+        hmac.update(self.inner.digest())
+        return hmac
 
     def digest(self):
         """Return the hash value of this hashing object.
@@ -156,14 +151,14 @@ class HMAC:
         not altered in any way by this function; you can continue
         updating the object after calling this function.
         """
-        h = self._current()
-        return h.digest()
+        hmac = self._current()
+        return hmac.digest()
 
     def hexdigest(self):
         """Like digest(), but returns a string of hexadecimal digits instead.
         """
-        h = self._current()
-        return h.hexdigest()
+        hmac = self._current()
+        return hmac.hexdigest()
 
 def new(key, msg=None, digestmod=None):
     """Create a new hashing object and return it.
