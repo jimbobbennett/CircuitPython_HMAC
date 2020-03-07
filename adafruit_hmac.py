@@ -23,7 +23,7 @@
 `adafruit_hmac`
 ================================================================================
 
-HMAC (Keyed-Hashing for Message Authentication) Python module. 
+HMAC (Keyed-Hashing for Message Authentication) Python module.
 Implements the HMAC algorithm as described by RFC 2104.
 
 
@@ -46,6 +46,9 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_HMAC.git"
 
 import adafruit_hashlib as _hashlib
 
+def __translate(key, translation):
+    return bytes(translation[x] for x in key)
+    
 TRANS_5C = bytes((x ^ 0x5C) for x in range(256))
 TRANS_36 = bytes((x ^ 0x36) for x in range(256))
 
@@ -55,9 +58,6 @@ class HMAC:
     This supports the API for Cryptographic Hash Functions (PEP 247).
     """
     blocksize = 64  # 512-bit HMAC; can be changed in subclasses.
-
-    def __translate(self, key, translation):
-        return bytes(translation[x] for x in key)
 
     def __init__(self, key, msg=None, digestmod=None):
         """Create a new HMAC object.
@@ -106,8 +106,8 @@ class HMAC:
             key = self.digest_cons(key).digest()
 
         key = key + bytes(blocksize - len(key))
-        self.outer.update(self.__translate(key, TRANS_5C))
-        self.inner.update(self.__translate(key, TRANS_36))
+        self.outer.update(__translate(key, TRANS_5C))
+        self.inner.update(__translate(key, TRANS_36))
         if msg is not None:
             self.update(msg)
 
