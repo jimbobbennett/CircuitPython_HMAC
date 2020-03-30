@@ -1,7 +1,7 @@
 Introduction
 ============
 
-.. image:: https://readthedocs.org/projects/adafruit-circuitpython-hmac/badge/?version=latest
+.. image:: https://readthedocs.org/projects/circuitpython-hmac/badge/?version=latest
     :target: https://circuitpython.readthedocs.io/projects/hmac/en/latest/
     :alt: Documentation Status
 
@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://github.com/adafruit/Adafruit_CircuitPython_HMAC/workflows/Build%20CI/badge.svg
-    :target: https://github.com/adafruit/Adafruit_CircuitPython_HMAC/actions
+.. image:: https://github.com/jimbobbennett/CircuitPython_HMAC/workflows/Build%20CI/badge.svg
+    :target: https://github.com/jimbobbennett/CircuitPython_HMAC/actions
     :alt: Build Status
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
