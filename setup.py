@@ -29,7 +29,7 @@ setup(
     # Author details
     author="Jim Bennett",
     author_email="jim.bennett@microsoft.com",
-    install_requires=["Adafruit-Blinka", "adafruit-hashlib"],
+    install_requires=["Adafruit-Blinka", "adafruit-circuitpython-hashlib"],
     # Choose your license
     license="MIT",
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
