@@ -1,6 +1,6 @@
 import circuitpython_hmac as hmac
 
-secret = "secret"
+secret = b'secret'
 msg = "message"
 
 key = hmac.new(secret, msg=msg).digest()
