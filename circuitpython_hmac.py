@@ -46,6 +46,7 @@ __repo__ = "https://github.com/jimbobbennett/CircuitPython_HMAC.git"
 
 import adafruit_hashlib as _hashlib
 
+
 def __translate(key, translation):
     return bytes(translation[x] for x in key)
 
