@@ -18,17 +18,17 @@ with open(path.join(here, "README.rst"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="adafruit-circuitpython-hmac",
+    name="circuitpython-hmac",
     use_scm_version=True,
     setup_requires=["setuptools_scm"],
     description="HMAC (Keyed-Hashing for Message Authentication) Python module. Implements the HMAC algorithm as described by RFC 2104.",
     long_description=long_description,
     long_description_content_type="text/x-rst",
     # The project's main homepage.
-    url="https://github.com/adafruit/Adafruit_CircuitPython_HMAC",
+    url="https://github.com/jimbobbennett/CircuitPython_HMAC",
     # Author details
-    author="Adafruit Industries",
-    author_email="circuitpython@adafruit.com",
+    author="Jim Bennett",
+    author_email="jim.bennett@microsoft.com",
     install_requires=["Adafruit-Blinka", "adafruit-hashlib"],
     # Choose your license
     license="MIT",
@@ -49,5 +49,5 @@ setup(
     # simple. Or you can use find_packages().
     # TODO: IF LIBRARY FILES ARE A PACKAGE FOLDER,
     #       CHANGE `py_modules=['...']` TO `packages=['...']`
-    py_modules=["adafruit_hmac"],
+    py_modules=["circuitpython_hmac"],
 )

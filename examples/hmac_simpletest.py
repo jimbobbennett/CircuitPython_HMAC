@@ -1,4 +1,4 @@
-import adafruit_hmac as hmac
+import circuitpython_hmac as hmac
 
 secret = "secret"
 msg = "message"

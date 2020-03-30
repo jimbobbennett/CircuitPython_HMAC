@@ -38,7 +38,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "Adafruit HMAC Library"
+project = "CircuitPython HMAC Library"
 copyright = "2020 Jim Bennett"
 author = "Jim Bennett"
 
@@ -114,7 +114,7 @@ html_static_path = ["_static"]
 html_favicon = "_static/favicon.ico"
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "AdafruitHmacLibrarydoc"
+htmlhelp_basename = "CircuitPythonHmacLibrarydoc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -139,8 +139,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "AdafruitHMACLibrary.tex",
-        "AdafruitHMAC Library Documentation",
+        "CircuitPythonHMACLibrary.tex",
+        "CircuitPythonHMAC Library Documentation",
         author,
         "manual",
     ),
@@ -153,8 +153,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "AdafruitHMAClibrary",
-        "Adafruit HMAC Library Documentation",
+        "CircuitPythonHMAClibrary",
+        "CircuitPython HMAC Library Documentation",
         [author],
         1,
     )
@@ -168,10 +168,10 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "AdafruitHMACLibrary",
-        "Adafruit HMAC Library Documentation",
+        "CircuitPythonHMACLibrary",
+        "CircuitPython HMAC Library Documentation",
         author,
-        "AdafruitHMACLibrary",
+        "CircuitPythonHMACLibrary",
         "One line description of project.",
         "Miscellaneous",
     ),
