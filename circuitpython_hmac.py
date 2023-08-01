@@ -47,7 +47,7 @@ __repo__ = "https://github.com/jimbobbennett/CircuitPython_HMAC.git"
 import adafruit_hashlib as _hashlib
 
 
-def __translate(key, translation):
+def __translate__(key, translation):
     return bytes(translation[x] for x in key)
 
 
@@ -112,8 +112,8 @@ class HMAC:
             key = self.digest_cons(key).digest()
 
         key = key + bytes(blocksize - len(key))
-        self.outer.update(__translate(key, TRANS_5C))
-        self.inner.update(__translate(key, TRANS_36))
+        self.outer.update(__translate__(key, TRANS_5C))
+        self.inner.update(__translate__(key, TRANS_36))
         if msg is not None:
             self.update(msg)
 
