@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
+
+# This is modified version of the action adafruit/workflows-circuitpython-libs/build@main to skips docs
+
 name: Build CI
 
 on: [pull_request, push]
@@ -13,24 +19,24 @@ jobs:
     - name: Translate Repo Name For Build Tools filename_prefix
       id: repo-name
       run: |
-        echo ::set-output name=repo-name::$(
+        echo repo-name=$(
         echo ${{ github.repository }} |
         awk -F '\/' '{ print tolower($2) }' |
         tr '_' '-'
-        )
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v1
+        ) >> $GITHUB_OUTPUT
+    - name: Set up Python 3.X
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.6
+        python-version: 3.X
     - name: Versions
       run: |
         python3 --version
     - name: Checkout Current Repo
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
       with:
         submodules: true
     - name: Checkout tools repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: adafruit/actions-ci-circuitpython-libs
         path: actions-ci
@@ -38,20 +44,49 @@ jobs:
       # (e.g. - apt-get: gettext, etc; pip: circuitpython-build-tools, requirements.txt; etc.)
       run: |
         source actions-ci/install.sh
-    - name: Pip install pylint, black, & Sphinx
+    - name: Install pre-commit for testing # Spinx was removed from this list. To add back add `Sphinx sphinx-rtd-theme`
+      # pre-commit will install pylint and black when it runs
       run: |
-        pip install --force-reinstall pylint==1.9.2 black==19.10b0 Sphinx sphinx-rtd-theme
+        pip install --force-reinstall pre-commit
     - name: Library version
       run: git describe --dirty --always --tags
-    - name: PyLint
+    - name: Setup problem matchers
+      uses: adafruit/circuitpython-action-library-ci-problem-matchers@v1
+    - name: Pre-commit hooks
+      # This will run pylint and black
+      shell: bash
       run: |
-        pylint $( find . -path './circuitpython*.py' )
-        ([[ ! -d "examples" ]] || pylint --disable=missing-docstring,invalid-name,bad-whitespace $( find . -path "./examples/*.py" ))
-    - name: Check formatting
+        pre-commit run --all-files
+    - name: Run pytest
+      shell: bash
       run: |
-        black --check --target-version=py35 .
+        if [[ -d tests ]]; then
+          pip install pytest
+          pytest
+        fi
     - name: Build assets
-      run: circuitpython-build-bundles --filename_prefix ${{ steps.repo-name.outputs.repo-name }} --library_location .
-    # - name: Build docs
-    #   working-directory: docs
-    #   run: sphinx-build -E -W -b html . _build/html
+      shell: bash
+      run: circuitpython-build-bundles --filename_prefix ${{ steps.repo-name.outputs.repo-name }} --library_location . ${{ steps.package-prefix-arg.outputs.prefix-arg }}
+    - name: Archive bundles
+      uses: actions/upload-artifact@v3
+      with:
+        name: bundles
+        path: ${{ github.workspace }}/bundles/
+    # Doc building would go here, if that were being done
+    - name: Check For pyproject.toml
+      id: need-pypi
+      shell: bash
+      run: |
+        echo pyproject-toml=$( find . -wholename './pyproject.toml' ) >> $GITHUB_OUTPUT
+    - name: Check packaging information
+      if: contains(steps.need-pypi.outputs.pyproject-toml, 'pyproject.toml')
+      shell: bash
+      run: python actions-ci/check_lib_packaging.py
+    - name: Build Python package
+      if: contains(steps.need-pypi.outputs.pyproject-toml, 'pyproject.toml')
+      shell: bash
+      run: |
+        pip install --upgrade build twine
+        find -type f -not -path "./.*" -not -path "./docs*" \( -name "*.py" -o -name "*.toml" \) -exec sed -i -e "s/0.0.0+auto.0/1.2.3/" {} +
+        python -m build
+        twine check dist/*
