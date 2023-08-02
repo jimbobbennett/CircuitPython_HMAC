@@ -1,14 +1,27 @@
+# Built python files
 *.mpy
-.idea
 __pycache__
-_build
-*.pyc
-.env
-.python-version
 build*/
 bundles
+*.pyc
+
+# Sphix build dir
+_build
+
+# Python env files
+.env
+.venv
+venv/
+
+# MacOS metadata files
 *.DS_Store
+
+# Local module install files
 .eggs
 dist
+.python-version
 **/*.egg-info
+
+# IDE FIles
+.idea
 .vscode

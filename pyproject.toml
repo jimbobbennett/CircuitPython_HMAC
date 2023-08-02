@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2022 Alec Delaney, written for Adafruit Industries
+# SPDX-FileCopyrightText: Copyright (c) 2023 Jim Bennett
+#
+# SPDX-License-Identifier: MIT
+
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "setuptools-scm",
+]
+
+[project]
+name = "circuitpython-hmac"
+description = "HMAC (Keyed-Hashing for Message Authentication) Python module. Implements the HMAC algorithm as described by RFC 2104."
+version = "0.0.0+auto.0"
+license = {text = "MIT"}
+readme = "README.rst"
+urls = {Homepage = "https://github.com/jimbobbennett/CircuitPython_HMAC"}
+authors = [
+    {name = "Jim Bennett", email = "jim.bennett@microsoft.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: System :: Hardware",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.4",
+    "Programming Language :: Python :: 3.5",
+]
+keywords = [
+    "adafruit",
+    "blinka",
+    "circuitpython",
+    "micropython",
+    "hmac",
+    "hashing",
+    "authentication",
+    "message",
+]
+dynamic = ["dependencies", "optional-dependencies"]
+
+[tool.setuptools]
+py-modules = ["circuitpython_hmac"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {optional = {file = ["optional_requirements.txt"]}}

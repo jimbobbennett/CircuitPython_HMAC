@@ -119,13 +119,11 @@ class HMAC:
 
     @property
     def name(self):
-        """Return the name of this object
-        """
+        """Return the name of this object"""
         return "hmac-" + self.inner.name
 
     def update(self, msg):
-        """Update this hashing object with the string msg.
-        """
+        """Update this hashing object with the string msg."""
         self.inner.update(msg)
 
     def copy(self):
@@ -161,8 +159,7 @@ class HMAC:
         return hmac.digest()
 
     def hexdigest(self):
-        """Like digest(), but returns a string of hexadecimal digits instead.
-        """
+        """Like digest(), but returns a string of hexadecimal digits instead."""
         hmac = self._current()
         return hmac.hexdigest()
 
