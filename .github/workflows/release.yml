@@ -20,19 +20,19 @@ jobs:
         awk -F '\/' '{ print tolower($2) }' |
         tr '_' '-'
         )
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v1
+    - name: Set up Python 3.X
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.6
+        python-version: 3.X
     - name: Versions
       run: |
         python3 --version
     - name: Checkout Current Repo
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
       with:
         submodules: true
     - name: Checkout tools repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: adafruit/actions-ci-circuitpython-libs
         path: actions-ci
@@ -57,14 +57,14 @@ jobs:
   upload-pypi:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Check For pyproject.toml
       id: need-pypi
       run: |
         echo pyproject-toml=$( find . -wholename './pyproject.toml' ) >> $GITHUB_OUTPUT
     - name: Set up Python
       if: contains(steps.need-pypi.outputs.pyproject-toml, 'pyproject.toml')
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
     - name: Install dependencies
