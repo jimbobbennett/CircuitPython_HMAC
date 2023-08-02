@@ -11,7 +11,6 @@ _build
 # Python env files
 .env
 .venv
-venv/
 
 # MacOS metadata files
 *.DS_Store
